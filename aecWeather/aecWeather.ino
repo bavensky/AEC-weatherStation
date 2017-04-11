@@ -1,14 +1,19 @@
-/*
+/******************************************************
+  AEC Weather Station
+  RMUTL Senior Project
+  Author  : ArduinoSiam
+  Date   : 10/04/2560
 
-Module Pin      Arduino Mega
-Dot matrix 8x8 
+  // pin connecting
+  Module Pin      Arduino Mega2560
+  Dot matrix 8x8
   DIN           12
   CLK           11
   CS            10
   VCC           5V
   GND           GND
-  
-SD CARD 
+
+  SD CARD
   SS            53
   MOSI          51
   MISO          50
@@ -16,7 +21,7 @@ SD CARD
   VCC           5V
   GND           GND
 
-Push Button 
+  Push Button
   Button 1      A1
   Button 2      A2
   Button 3      A3
@@ -28,14 +33,14 @@ Push Button
   Button 9      A9
   Button 10     A10
   Button 11     A11
-  
-DHT sensor
+
+  DHT sensor
   VCC           5V
   GND           GND
   Signal        2
 
-Signal Speaker
-  Speaker       46
+  Signal Speaker
+  Speaker       6 //46
   Speaker GND   GND
 */
 
@@ -179,7 +184,7 @@ void setup() {
   //  sound output
   tmrpcm.speakerPin = 46;
 
-  //  sd card  
+  //  sd card
   if (!sd.begin(53, SPI_FULL_SPEED)) {
     return;
     Serial.println("Failed");
@@ -219,18 +224,24 @@ void loop() {
   buttonState[10] = digitalRead(buttonPin[10]);
   buttonState[11] = digitalRead(buttonPin[11]);
 
+
   //  read temperature
   t = dht.readTemperature();
   //Serial.println(t);
-  
+
+
   //  show dot matrix
-  ch0 = String(t)[0];
+  if(t == 0) {
+    ch0 = 0;
+  } else {
+    ch0 = String(t)[0];
+  }
   ch1 = String(t)[1];
   ch2 = scrollString[0];
   lc.displayChar(0, lc.getCharArrayPosition(ch0));
   lc.displayChar(1, lc.getCharArrayPosition(ch1));
   lc.displayChar(2, lc.getCharArrayPosition(ch2));
-
+  
 
   //  press button for select language
   for (int i = 1; i <= 11; i++) {
