@@ -69,8 +69,30 @@ String m_str;
 char ch0, ch1, ch2, ch3;
 String scrollString = "C";
 
+byte cc[8] = {B00000011,
+              B00000011,
+              B00000000,
+              B01111110,
+              B10000001,
+              B10000001,
+              B10000001,
+              B01000010,
+             };
 
 /************** Sub function **************/
+void printCelsius() {
+  lc.setRow(2, 0, cc[0]);
+  lc.setRow(2, 1, cc[1]);
+  lc.setRow(2, 2, cc[2]);
+  lc.setRow(2, 3, cc[3]);
+  lc.setRow(2, 4, cc[4]);
+  lc.setRow(2, 5, cc[5]);
+  lc.setRow(2, 6, cc[6]);
+  lc.setRow(2, 7, cc[7]);
+}
+
+
+
 void play_wid(String wid) {
   tmrpcm.quality(1);
   if (wid.toInt() < 10) {
@@ -86,6 +108,7 @@ void play_wid(String wid) {
   tmrpcm.play(&m_str[0u]);
   delay(1300);
 }
+
 
 
 void one_word(int num) {
@@ -128,6 +151,7 @@ void one_word(int num) {
     tmrpcm.play(m_play);
   }
 }
+
 
 
 void two_word(int num) {
@@ -231,7 +255,7 @@ void loop() {
 
 
   //  show dot matrix
-  if(t == 0) {
+  if (t == 0) {
     ch0 = 0;
   } else {
     ch0 = String(t)[0];
@@ -240,8 +264,8 @@ void loop() {
   ch2 = scrollString[0];
   lc.displayChar(0, lc.getCharArrayPosition(ch0));
   lc.displayChar(1, lc.getCharArrayPosition(ch1));
-  lc.displayChar(2, lc.getCharArrayPosition(ch2));
-  
+  //  lc.displayChar(2, lc.getCharArrayPosition(ch2));
+  printCelsius();
 
   //  press button for select language
   for (int i = 1; i <= 11; i++) {
