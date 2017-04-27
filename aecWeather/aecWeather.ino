@@ -61,7 +61,7 @@ LedControl lc = LedControl(12, 11, 10, 4);
 
 int t;
 String lang;
-const int buttonPin[12] = {0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11};
+const int buttonPin[12] = {A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11};
 int buttonState[12];
 int lastButtonState[12];
 
@@ -99,14 +99,14 @@ void play_wid(String wid) {
     one_word(wid.toInt());
   } else if (wid.toInt() >= 10 && wid.toInt() <= 99) {
     two_word((wid.substring(0, 1)).toInt());
-    delay(1000);
+    delay(500);
     one_word((wid.substring(1, 2)).toInt());
   }
-  delay(800);
+  delay(250);
   m_str = "" + lang + "/""021.wav" ;    //  sound degree Celsius
 
   tmrpcm.play(&m_str[0u]);
-  delay(1300);
+  //  delay(1000);
 }
 
 
@@ -248,6 +248,10 @@ void loop() {
   buttonState[10] = digitalRead(buttonPin[10]);
   buttonState[11] = digitalRead(buttonPin[11]);
 
+  //  m_str = "1/27.wav" ;
+  //  char *m_play = &m_str[0u];
+  //  tmrpcm.play(m_play);
+  //  delay(2000);
 
   //  read temperature
   t = dht.readTemperature();
@@ -264,19 +268,27 @@ void loop() {
   ch2 = scrollString[0];
   lc.displayChar(0, lc.getCharArrayPosition(ch0));
   lc.displayChar(1, lc.getCharArrayPosition(ch1));
-  //  lc.displayChar(2, lc.getCharArrayPosition(ch2));
   printCelsius();
+  delay(100);
 
   //  press button for select language
   for (int i = 1; i <= 11; i++) {
     if (buttonState[i] != lastButtonState[i]) {
       if (buttonState[i] == HIGH) {
         lang = String(i);
-        play_wid(String(t));
+        //        play_wid(String(t));
+
+        tmrpcm.quality(1);
+        m_str = "" + lang + "/" + String(t) + ".wav";
+        char *m_play = &m_str[0u];
+        tmrpcm.play(m_play);
+
+        Serial.print("m_play = ");
+        Serial.println(m_play);
         Serial.print("Button");
         Serial.println(i);
+        delay(2000);
       }
-      delay(50);
       lastButtonState[i] = buttonState[i];
     }
   }
