@@ -22,17 +22,17 @@
   GND           GND
 
   Push Button
-  Button 1      A1
-  Button 2      A2
-  Button 3      A3
-  Button 4      A4
-  Button 5      A5
-  Button 6      A6
-  Button 7      A7
-  Button 8      A8
-  Button 9      A9
-  Button 10     A10
-  Button 11     A11
+  Button 1      22    A1
+  Button 2      24    A2
+  Button 3      26    A3
+  Button 4      28    A4
+  Button 5      30    A5
+  Button 6      32    A6
+  Button 7      34    A7
+  Button 8      36    A8
+  Button 9      38    A9
+  Button 10     40    A10
+  Button 11     42    A11
 
   DHT sensor
   VCC           5V
@@ -59,9 +59,12 @@ TMRpcm tmrpcm;
 #define NBR_MTX 4
 LedControl lc = LedControl(12, 11, 10, 4);
 
+#define SPEAKER  6 //46
+
 int t;
 String lang;
-const int buttonPin[12] = {A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11};
+//const int buttonPin[12] = {A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11};
+const int buttonPin[12] = {A0, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42};
 int buttonState[12];
 int lastButtonState[12];
 
@@ -206,7 +209,7 @@ void setup() {
   dht.begin();
 
   //  sound output
-  tmrpcm.speakerPin = 46;
+  tmrpcm.speakerPin = SPEAKER; 
 
   //  sd card
   if (!sd.begin(53, SPI_FULL_SPEED)) {
@@ -220,7 +223,7 @@ void setup() {
 
   //  set input button
   for (int i = 1; i <= 11; i++) {
-    pinMode(buttonPin[i], INPUT);
+    pinMode(buttonPin[i], INPUT_PULLUP);
   }
 
   //  dot matrix
@@ -255,7 +258,7 @@ void loop() {
 
   //  read temperature
   t = dht.readTemperature();
-  //Serial.println(t);
+  Serial.println(t);
 
 
   //  show dot matrix
@@ -274,7 +277,7 @@ void loop() {
   //  press button for select language
   for (int i = 1; i <= 11; i++) {
     if (buttonState[i] != lastButtonState[i]) {
-      if (buttonState[i] == HIGH) {
+      if (buttonState[i] == LOW) {
         lang = String(i);
         //        play_wid(String(t));
 
