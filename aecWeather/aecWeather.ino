@@ -2,7 +2,7 @@
   AEC Weather Station
   RMUTL Senior Project
   Author  : ArduinoSiam
-  Date   : 10/04/2560
+  Date    : 29/04/2560
 
   // pin connecting
   Module Pin      Arduino Mega2560
@@ -22,17 +22,17 @@
   GND           GND
 
   Push Button
-  Button 1      22    A1
-  Button 2      24    A2
-  Button 3      26    A3
-  Button 4      28    A4
-  Button 5      30    A5
-  Button 6      32    A6
-  Button 7      34    A7
-  Button 8      36    A8
-  Button 9      38    A9
-  Button 10     40    A10
-  Button 11     42    A11
+  Button 1      22    
+  Button 2      24    
+  Button 3      26    
+  Button 4      28    
+  Button 5      30    
+  Button 6      32    
+  Button 7      34    
+  Button 8      36    
+  Button 9      38    
+  Button 10     40    
+  Button 11     42    
 
   DHT sensor
   VCC           5V
@@ -40,7 +40,7 @@
   Signal        2
 
   Signal Speaker
-  Speaker       6 //46
+  Speaker       6 
   Speaker GND   GND
 */
 
@@ -59,18 +59,16 @@ TMRpcm tmrpcm;
 #define NBR_MTX 4
 LedControl lc = LedControl(12, 11, 10, 4);
 
-#define SPEAKER  6 //46
+#define SPEAKER  6
 
 int t;
 String lang;
-//const int buttonPin[12] = {A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11};
 const int buttonPin[12] = {A0, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42};
 int buttonState[12];
 int lastButtonState[12];
 
 String m_str;
 char ch0, ch1, ch2, ch3;
-String scrollString = "C";
 
 byte cc[8] = {B00000011,
               B00000011,
@@ -93,112 +91,6 @@ void printCelsius() {
   lc.setRow(2, 6, cc[6]);
   lc.setRow(2, 7, cc[7]);
 }
-
-
-
-void play_wid(String wid) {
-  tmrpcm.quality(1);
-  if (wid.toInt() < 10) {
-    one_word(wid.toInt());
-  } else if (wid.toInt() >= 10 && wid.toInt() <= 99) {
-    two_word((wid.substring(0, 1)).toInt());
-    delay(500);
-    one_word((wid.substring(1, 2)).toInt());
-  }
-  delay(250);
-  m_str = "" + lang + "/""021.wav" ;    //  sound degree Celsius
-
-  tmrpcm.play(&m_str[0u]);
-  //  delay(1000);
-}
-
-
-
-void one_word(int num) {
-  tmrpcm.quality(1);
-  if (num == 1) {
-    m_str = "" + lang + "/""001.wav" ;
-    char *m_play = &m_str[0u];
-    tmrpcm.play(m_play);
-  } else if (num == 2) {
-    m_str = "" + lang + "/""002.wav" ;
-    char *m_play = &m_str[0u];
-    tmrpcm.play(m_play);
-  } else if (num == 3) {
-    m_str = "" + lang + "/""003.wav" ;
-    char *m_play = &m_str[0u];
-    tmrpcm.play(m_play);
-  } else if (num == 4) {
-    m_str = "" + lang + "/""004.wav" ;
-    char *m_play = &m_str[0u];
-    tmrpcm.play(m_play);
-  } else if (num == 5) {
-    m_str = "" + lang + "/""005.wav" ;
-    char *m_play = &m_str[0u];
-    tmrpcm.play(m_play);
-  } else if (num == 6) {
-    m_str = "" + lang + "/""006.wav" ;
-    char *m_play = &m_str[0u];
-    tmrpcm.play(m_play);
-  } else if (num == 7) {
-    m_str = "" + lang + "/""007.wav" ;
-    char *m_play = &m_str[0u];
-    tmrpcm.play(m_play);
-  } else if (num == 8) {
-    m_str = "" + lang + "/""008.wav" ;
-    char *m_play = &m_str[0u];
-    tmrpcm.play(m_play);
-  } else if (num == 9) {
-    m_str = "" + lang + "/""009.wav" ;
-    char *m_play = &m_str[0u];
-    tmrpcm.play(m_play);
-  }
-}
-
-
-
-void two_word(int num) {
-  tmrpcm.quality(1);
-  if (num == 1) {
-    m_str = "" + lang + "/""010.wav" ;
-    char *m_play = &m_str[0u];
-    tmrpcm.play(m_play);
-  } else if (num == 2) {
-    m_str = "" + lang + "/""011.wav" ;
-    char *m_play = &m_str[0u];
-    tmrpcm.play(m_play);
-  } else if (num == 3) {
-    m_str = "" + lang + "/""012.wav" ;
-    char *m_play = &m_str[0u];
-    tmrpcm.play(m_play);
-  } else if (num == 4) {
-    m_str = "" + lang + "/""013.wav" ;
-    char *m_play = &m_str[0u];
-    tmrpcm.play(m_play);
-  } else if (num == 5) {
-    m_str = "" + lang + "/""014.wav" ;
-    char *m_play = &m_str[0u];
-    tmrpcm.play(m_play);
-  } else if (num == 6) {
-    m_str = "" + lang + "/""015.wav" ;
-    char *m_play = &m_str[0u];
-    tmrpcm.play(m_play);
-  } else if (num == 7) {
-    m_str = "" + lang + "/""016.wav" ;
-    char *m_play = &m_str[0u];
-    tmrpcm.play(m_play);
-  } else if (num == 8) {
-    m_str = "" + lang + "/""017.wav" ;
-    char *m_play = &m_str[0u];
-    tmrpcm.play(m_play);
-  } else if (num == 9) {
-    m_str = "" + lang + "/""018.wav" ;
-    char *m_play = &m_str[0u];
-    tmrpcm.play(m_play);
-  }
-}
-
-
 
 /************** Main function **************/
 void setup() {
@@ -250,11 +142,6 @@ void loop() {
   buttonState[9] = digitalRead(buttonPin[9]);
   buttonState[10] = digitalRead(buttonPin[10]);
   buttonState[11] = digitalRead(buttonPin[11]);
-
-  //  m_str = "1/27.wav" ;
-  //  char *m_play = &m_str[0u];
-  //  tmrpcm.play(m_play);
-  //  delay(2000);
 
   //  read temperature
   t = dht.readTemperature();
